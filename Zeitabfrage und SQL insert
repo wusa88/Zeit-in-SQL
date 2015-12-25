@@ -1,0 +1,31 @@
+#!/usr/bin/python3
+
+from time import *
+import sqlite3
+
+dbname = 'test.db'
+
+lt = localtime()
+zeit = (strftime("%d.%m.%Y %H:%M", lt))
+
+
+
+try:
+        conn = sqlite3.connect(dbname)
+        print ("open db ok")
+        c = conn.cursor()
+        sql_command = ('''create table if not exists giesen (id INTEGER PRIMARY KEY AUTOINCREMENT, $
+        c.execute(sql_command)
+        conn.commit()
+        print ("Tabelle erstellt!")
+except Exception as e:
+        print ("Fehler beim erstellen der Tabelle",e)
+
+
+
+try:
+        c.execute ("INSERT INTO giesen VALUES (NULL,?)", (zeit,))
+        conn.commit()
+        conn.close()
+except Exception as e:
+        print ("Fehler beim Befuellen der Tabelle",e)
